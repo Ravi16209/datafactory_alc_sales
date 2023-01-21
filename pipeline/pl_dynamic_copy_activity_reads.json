@@ -1,0 +1,153 @@
+{
+	"name": "pl_dynamic_copy_activity_reads",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_SQL_ODS_MAIN",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "truncate table [ODS].[PERSONS];\nselect * from [STG].[PERSONS] where sex='MALE'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_sql",
+						"type": "DatasetReference",
+						"parameters": {
+							"schemaname": {
+								"value": "ODS",
+								"type": "Expression"
+							},
+							"tablename": {
+								"value": "PERSONS",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_sql",
+						"type": "DatasetReference",
+						"parameters": {
+							"schemaname": {
+								"value": "ODS",
+								"type": "Expression"
+							},
+							"tablename": {
+								"value": "PERSONS",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Log Audit",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Copy_SQL_ODS_MAIN",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AUDIT].[UPDATE_AUDIT_INFO]",
+					"storedProcedureParameters": {
+						"ENDTIME": {
+							"value": {
+								"value": "@utcnow()",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"JOBNAME": {
+							"value": "MovingDataFromCSVTOSQL",
+							"type": "String"
+						},
+						"SOURCE_COUNT": {
+							"value": {
+								"value": "@activity('Copy_SQL_ODS_MAIN').output.rowsRead",
+								"type": "Expression"
+							},
+							"type": "Int64"
+						},
+						"SOURCE_DATAPATH": {
+							"value": {
+								"value": "stg1container_INPUT_DATAFILES_Persons",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"STARTTIME": {
+							"value": {
+								"value": "@pipeline().TriggerTime",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"TARGET_COUNT": {
+							"value": {
+								"value": "@activity('Copy_SQL_ODS_MAIN').output.rowsCopied",
+								"type": "Expression"
+							},
+							"type": "Int64"
+						},
+						"TARGET_DATAPATH": {
+							"value": "STG_PERSONS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_sql",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"folder": {
+			"name": "DELTA_ACTIVITIES"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-01-18T17:28:49Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
