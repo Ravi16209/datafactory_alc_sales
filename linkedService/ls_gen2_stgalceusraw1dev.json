@@ -5,14 +5,21 @@
 		"type": "AzureBlobFS",
 		"typeProperties": {
 			"url": "https://stgalceusraw1dev.dfs.core.windows.net/",
-			"accountKey": {
+			"tenant": "ac6d0bfb-0888-4ba4-8e1b-64368ebde8ff",
+			"servicePrincipalId": "a4d0a191-86c1-4f21-ab13-450bca78e778",
+			"servicePrincipalCredentialType": "ServicePrincipalKey",
+			"servicePrincipalCredential": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
 					"referenceName": "ls_azure_key",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "stgalceusraw1dev-key"
+				"secretName": "spn-value"
 			}
+		},
+		"connectVia": {
+			"referenceName": "shir-alc-eus-dev",
+			"type": "IntegrationRuntimeReference"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/linkedservices"
