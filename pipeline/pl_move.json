@@ -47,7 +47,10 @@
 								"value": "raw",
 								"type": "Expression"
 							},
-							"filename": "Market1.csv"
+							"filename": {
+								"value": "Market1.csv",
+								"type": "Expression"
+							}
 						}
 					}
 				],
