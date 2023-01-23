@@ -1,0 +1,10 @@
+{
+	"name": "ls_azure_key",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://keyvalut-alc-dev.vault.azure.net/"
+		}
+	}
+}
