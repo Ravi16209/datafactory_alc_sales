@@ -21,8 +21,8 @@
 							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
 							"wildcardFolderPath": "raw",
-							"wildcardFileName": "*.json",
-							"deleteFilesAfterCompletion": true
+							"wildcardFileName": "*.csv",
+							"deleteFilesAfterCompletion": false
 						},
 						"formatSettings": {
 							"type": "BinaryReadSettings"
@@ -43,7 +43,7 @@
 						"parameters": {
 							"containername": "stg1container",
 							"foldername": "raw",
-							"filename": "*.json"
+							"filename": "*.csv"
 						}
 					}
 				],
