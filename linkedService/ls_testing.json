@@ -1,16 +1,26 @@
 {
 	"name": "ls_testing",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "AzureBlobFS",
 		"typeProperties": {
 			"url": "https://stgalceusraw1dev.dfs.core.windows.net/",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI5YzAxZDMwNC0xOTE3LTQwMGQtOWY5OC0zZGI2NDJlYWE4N2EiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"tenant": "ac6d0bfb-0888-4ba4-8e1b-64368ebde8ff",
+			"servicePrincipalId": "bbe1fb4b-6318-4fb3-a877-daa5832ed16a",
+			"servicePrincipalCredentialType": "ServicePrincipalCert",
+			"servicePrincipalCredential": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_keyVALUT",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "spnsecrect"
+			}
 		},
 		"connectVia": {
 			"referenceName": "shir-alc-eus-dev",
 			"type": "IntegrationRuntimeReference"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
