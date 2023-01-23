@@ -9,6 +9,10 @@
 			"tenant_ID_GP": {
 				"type": "string",
 				"value": "ac6d0bfb-0888-4ba4-8e1b-64368ebde8ff"
+			},
+			"stg_account_gen2": {
+				"type": "string",
+				"value": "https://stgalceusraw1dev.dfs.core.windows.net/"
 			}
 		}
 	},
