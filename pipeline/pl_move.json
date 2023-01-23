@@ -56,6 +56,10 @@
 								"value": "stg1container",
 								"type": "Expression"
 							},
+							"foldername": {
+								"value": "archive",
+								"type": "Expression"
+							},
 							"filename": {
 								"value": "@pipeline().parameters.dummyfilename",
 								"type": "Expression"
