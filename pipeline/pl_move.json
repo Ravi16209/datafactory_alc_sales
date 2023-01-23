@@ -22,7 +22,7 @@
 							"recursive": true,
 							"wildcardFolderPath": "raw",
 							"wildcardFileName": "*",
-							"deleteFilesAfterCompletion": false
+							"deleteFilesAfterCompletion": true
 						},
 						"formatSettings": {
 							"type": "BinaryReadSettings"
