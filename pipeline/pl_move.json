@@ -20,8 +20,6 @@
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
-							"wildcardFolderPath": "raw",
-							"wildcardFileName": "*",
 							"deleteFilesAfterCompletion": false
 						},
 						"formatSettings": {
@@ -41,9 +39,15 @@
 						"referenceName": "ds_binary",
 						"type": "DatasetReference",
 						"parameters": {
-							"containername": "stg1container",
-							"foldername": "raw",
-							"filename": "*.csv"
+							"containername": {
+								"value": "stg1container",
+								"type": "Expression"
+							},
+							"foldername": {
+								"value": "raw",
+								"type": "Expression"
+							},
+							"filename": "Market1.csv"
 						}
 					}
 				],
