@@ -1,0 +1,91 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adf-alc-eus-dev"
+		},
+		"ls_gen2_stgalceusraw1dev_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_gen2_stgalceusraw1dev'"
+		},
+		"ls_sql_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_sql'"
+		},
+		"ls_gen2_stgalceusraw1dev_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://stgalceusraw1dev.dfs.core.windows.net/"
+		},
+		"ls_testing_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://stgalceusraw1dev.dfs.core.windows.net/"
+		},
+		"ls_testing_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "ac6d0bfb-0888-4ba4-8e1b-64368ebde8ff"
+		},
+		"ls_testing_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "bbe1fb4b-6318-4fb3-a877-daa5832ed16a"
+		},
+		"ls_keyVALUT_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://keyvalue-alc-eus-dev.vault.azure.net/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "adf-alc-eus-dev_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ls_gen2_stgalceusraw1dev_accountKey": {
+						"value": "[parameters('ls_gen2_stgalceusraw1dev_accountKey')]"
+					},
+					"ls_sql_connectionString": {
+						"value": "[parameters('ls_sql_connectionString')]"
+					},
+					"ls_gen2_stgalceusraw1dev_properties_typeProperties_url": {
+						"value": "[parameters('ls_gen2_stgalceusraw1dev_properties_typeProperties_url')]"
+					},
+					"ls_keyVALUT_properties_typeProperties_baseUrl": {
+						"value": "[parameters('ls_keyVALUT_properties_typeProperties_baseUrl')]"
+					},
+					"ls_testing_properties_typeProperties_url": {
+						"value": "[parameters('ls_testing_properties_typeProperties_url')]"
+					},
+					"ls_testing_properties_typeProperties_tenant": {
+						"value": "[parameters('ls_testing_properties_typeProperties_tenant')]"
+					},
+					"ls_testing_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('ls_testing_properties_typeProperties_servicePrincipalId')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-alc-eus-dev"
+		},
+		"ls_gen2_stgalceusraw1dev_accountKey": {
+			"value": ""
+		},
+		"ls_sql_connectionString": {
+			"value": ""
+		},
+		"ls_gen2_stgalceusraw1dev_properties_typeProperties_url": {
+			"value": "https://stgalceusraw1dev.dfs.core.windows.net/"
+		},
+		"ls_testing_properties_typeProperties_url": {
+			"value": "https://stgalceusraw1dev.dfs.core.windows.net/"
+		},
+		"ls_testing_properties_typeProperties_tenant": {
+			"value": "ac6d0bfb-0888-4ba4-8e1b-64368ebde8ff"
+		},
+		"ls_testing_properties_typeProperties_servicePrincipalId": {
+			"value": "bbe1fb4b-6318-4fb3-a877-daa5832ed16a"
+		},
+		"ls_keyVALUT_properties_typeProperties_baseUrl": {
+			"value": "https://keyvalue-alc-eus-dev.vault.azure.net/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
