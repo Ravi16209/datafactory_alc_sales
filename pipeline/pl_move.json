@@ -22,7 +22,7 @@
 							"recursive": true,
 							"wildcardFolderPath": "raw",
 							"wildcardFileName": "*.json",
-							"deleteFilesAfterCompletion": false
+							"deleteFilesAfterCompletion": true
 						},
 						"formatSettings": {
 							"type": "BinaryReadSettings"
@@ -52,8 +52,10 @@
 						"referenceName": "ds_binary",
 						"type": "DatasetReference",
 						"parameters": {
-							"containername": "stg1container",
-							"foldername": "archive",
+							"containername": {
+								"value": "stg1container",
+								"type": "Expression"
+							},
 							"filename": {
 								"value": "@pipeline().parameters.dummyfilename",
 								"type": "Expression"
