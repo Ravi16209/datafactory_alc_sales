@@ -60,7 +60,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> RenamedDeptNotoDDeptNo",
 				"SourceEmployee, RenamedDeptNotoDDeptNo join(SourceEmployee@DEPTNO == D_DEPTNO,",
-				"     joinType:'inner',",
+				"     joinType:'outer',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1"
