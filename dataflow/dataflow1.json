@@ -80,7 +80,8 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 aggregate(groupBy(DEPTNO)) ~> aggregate1"
+				"select1 aggregate(groupBy(DEPTNO),",
+				"     SAL = sum(SAL)) ~> aggregate1"
 			]
 		}
 	}
