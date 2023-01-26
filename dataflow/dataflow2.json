@@ -1,0 +1,70 @@
+{
+	"name": "dataflow2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "df_ds_emp_table",
+						"type": "DatasetReference"
+					},
+					"name": "Emptable"
+				},
+				{
+					"dataset": {
+						"referenceName": "df_ds_dept_table",
+						"type": "DatasetReference"
+					},
+					"name": "Depttable"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "RenameingDeptNo"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ENO as integer,",
+				"          ENAME as string,",
+				"          JOB as string,",
+				"          COMPID as integer,",
+				"          DOJ as timestamp,",
+				"          SAL as integer,",
+				"          COMM as integer,",
+				"          DEPTNO as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Emptable",
+				"source(output(",
+				"          DEPTNO as integer,",
+				"          DNAME as string,",
+				"          LOCATION as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Depttable",
+				"Emptable join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"Depttable select(mapColumn(",
+				"          DEPTNO_D = DEPTNO,",
+				"          DNAME,",
+				"          LOCATION",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenameingDeptNo"
+			]
+		}
+	}
+}
