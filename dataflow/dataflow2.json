@@ -22,10 +22,19 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "join1"
+					"name": "EmpVRenamedDept"
 				},
 				{
 					"name": "RenameingDeptNo"
+				},
+				{
+					"name": "deptcoalse"
+				},
+				{
+					"name": "SaldeptId"
+				},
+				{
+					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -52,18 +61,26 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> Depttable",
-				"Emptable join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
-				"     joinType:'inner',",
+				"Emptable, RenameingDeptNo join(DEPTNO == DEPTNO_D,",
+				"     joinType:'outer',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
+				"     broadcast: 'auto')~> EmpVRenamedDept",
 				"Depttable select(mapColumn(",
 				"          DEPTNO_D = DEPTNO,",
 				"          DNAME,",
 				"          LOCATION",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> RenameingDeptNo"
+				"     skipDuplicateMapOutputs: true) ~> RenameingDeptNo",
+				"EmpVRenamedDept derive(DEPTNO = coalesce(DEPTNO,DEPTNO_D)) ~> deptcoalse",
+				"deptcoalse select(mapColumn(",
+				"          SAL,",
+				"          DEPTNO",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SaldeptId",
+				"SaldeptId aggregate() ~> aggregate1"
 			]
 		}
 	}
