@@ -9,13 +9,6 @@
 						"referenceName": "ds_df_sql_emp",
 						"type": "DatasetReference"
 					},
-					"name": "SoruceEmployee"
-				},
-				{
-					"dataset": {
-						"referenceName": "ds_df_sql_emp",
-						"type": "DatasetReference"
-					},
 					"name": "SourceEmployee"
 				},
 				{
@@ -29,24 +22,13 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "select1"
+					"name": "RenamedDeptNotoDDeptNo"
+				},
+				{
+					"name": "join1"
 				}
 			],
 			"scriptLines": [
-				"source(output(",
-				"          ENO as integer,",
-				"          ENAME as string,",
-				"          JOB as string,",
-				"          COMPID as integer,",
-				"          DOJ as timestamp,",
-				"          SAL as integer,",
-				"          COMM as integer,",
-				"          DEPTNO as integer",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> SoruceEmployee",
 				"source(output(",
 				"          ENO as integer,",
 				"          ENAME as string,",
@@ -76,7 +58,12 @@
 				"          LOCATION",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1"
+				"     skipDuplicateMapOutputs: true) ~> RenamedDeptNotoDDeptNo",
+				"SourceEmployee, RenamedDeptNotoDDeptNo join(SourceEmployee@DEPTNO == D_DEPTNO,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1"
 			]
 		}
 	}
