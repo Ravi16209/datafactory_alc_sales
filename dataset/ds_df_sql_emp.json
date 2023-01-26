@@ -1,5 +1,5 @@
 {
-	"name": "ds_df_sql",
+	"name": "ds_df_sql_emp",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_df_sql",

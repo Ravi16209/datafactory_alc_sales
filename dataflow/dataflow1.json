@@ -6,17 +6,24 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_df_sql",
+						"referenceName": "ds_df_sql_emp",
 						"type": "DatasetReference"
 					},
 					"name": "SoruceEmployee"
 				},
 				{
 					"dataset": {
-						"referenceName": "ds_df_sql",
+						"referenceName": "ds_df_sql_emp",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "SourceEmployee"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_df_deptno",
+						"type": "DatasetReference"
+					},
+					"name": "SourceDeptNo"
 				}
 			],
 			"sinks": [],
@@ -49,7 +56,16 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1"
+				"     format: 'table') ~> SourceEmployee",
+				"source(output(",
+				"          DEPTNO as integer,",
+				"          DNAME as string,",
+				"          LOCATION as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> SourceDeptNo"
 			]
 		}
 	}

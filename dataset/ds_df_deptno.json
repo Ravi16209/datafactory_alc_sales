@@ -1,0 +1,30 @@
+{
+	"name": "ds_df_deptno",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_df_sql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DEPTNO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DNAME",
+				"type": "varchar"
+			},
+			{
+				"name": "LOCATION",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "MAIN",
+			"table": "DEPT"
+		}
+	}
+}
