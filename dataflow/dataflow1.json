@@ -29,6 +29,12 @@
 				},
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -67,7 +73,14 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
-				"join1 derive(DEPTNO = coalesce(DEPTNO,D_DEPTNO)) ~> derivedColumn1"
+				"join1 derive(DEPTNO = coalesce(DEPTNO,D_DEPTNO)) ~> derivedColumn1",
+				"derivedColumn1 select(mapColumn(",
+				"          SAL,",
+				"          DEPTNO",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 aggregate(groupBy(DEPTNO)) ~> aggregate1"
 			]
 		}
 	}
