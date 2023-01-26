@@ -92,7 +92,7 @@
 				"     SAL = sum(SAL)) ~> aggregate1",
 				"aggregate1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     partitionFileNames:['dept_full_salary'],",
+				"     partitionFileNames:['dept_full_salary.csv'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
