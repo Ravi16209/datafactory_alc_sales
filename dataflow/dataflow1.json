@@ -1,0 +1,40 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_df_sql",
+						"type": "DatasetReference"
+					},
+					"name": "SoruceEmployee"
+				},
+				{
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          ENO as integer,",
+				"          ENAME as string,",
+				"          JOB as string,",
+				"          COMPID as integer,",
+				"          DOJ as timestamp,",
+				"          SAL as integer,",
+				"          COMM as integer,",
+				"          DEPTNO as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> SoruceEmployee",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> source1"
+			]
+		}
+	}
+}

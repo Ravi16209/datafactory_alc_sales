@@ -57,8 +57,14 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "MAIN",
-			"table": "EMPLOYEE"
+			"schema": {
+				"value": "@dataset().schemaname",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			}
 		}
 	}
 }
