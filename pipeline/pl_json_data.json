@@ -15,8 +15,28 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"enableStaging": false
-				}
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_json",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
