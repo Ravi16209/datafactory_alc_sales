@@ -5,6 +5,17 @@
 			"referenceName": "ls_gen2",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"filename": {
+				"type": "string"
+			},
+			"foldername": {
+				"type": "string"
+			},
+			"containername": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
