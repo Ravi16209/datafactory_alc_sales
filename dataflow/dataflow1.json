@@ -21,11 +21,7 @@
 			],
 			"sinks": [
 				{
-					"dataset": {
-						"referenceName": "ds_df_sal",
-						"type": "DatasetReference"
-					},
-					"name": "sink1"
+					"name": "deptsimsal"
 				}
 			],
 			"transformations": [
@@ -92,12 +88,11 @@
 				"     SAL = sum(SAL)) ~> aggregate1",
 				"aggregate1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     umask: 0022,",
-				"     preCommands: [],",
-				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> sink1"
+				"     partitionBy('hash', 1),",
+				"     preCommands: [],",
+				"     postCommands: []) ~> deptsimsal"
 			]
 		}
 	}
