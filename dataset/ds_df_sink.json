@@ -10,7 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileSystem": "raw"
+				"folderPath": "dept_sal",
+				"fileSystem": "dataflow"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
