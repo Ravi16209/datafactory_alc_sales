@@ -26,14 +26,40 @@
 							"type": "DelimitedTextReadSettings"
 						}
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator"
-					}
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "ds_json",
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": {
+								"value": "json_f",
+								"type": "Expression"
+							},
+							"foldername": {
+								"value": "json_f",
+								"type": "Expression"
+							},
+							"containername": {
+								"value": "stg1container",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "df_ds_json",
 						"type": "DatasetReference"
 					}
 				]
