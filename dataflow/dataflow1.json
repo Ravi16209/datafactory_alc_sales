@@ -76,6 +76,7 @@
 				"     joinType:'outer',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
+				"     partitionBy('roundRobin', 2),",
 				"     broadcast: 'auto')~> join1",
 				"join1 derive(DEPTNO = coalesce(DEPTNO,D_DEPTNO)) ~> derivedColumn1",
 				"derivedColumn1 select(mapColumn(",
