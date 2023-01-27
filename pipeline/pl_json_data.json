@@ -40,6 +40,19 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 1
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 1
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
@@ -53,7 +66,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"filename": {
-								"value": "json_f",
+								"value": "sample-json-file-download.json",
 								"type": "Expression"
 							},
 							"foldername": {
