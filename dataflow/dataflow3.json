@@ -23,7 +23,10 @@
 			],
 			"transformations": [
 				{
-					"name": "flatten1"
+					"name": "filter1"
+				},
+				{
+					"name": "flattenjsondata"
 				}
 			],
 			"scriptLines": [
@@ -34,6 +37,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'singleDocument') ~> djsondata",
+				"flattenjsondata filter(ERROR_FUNCTION('')) ~> filter1",
 				"djsondata foldDown(unroll(raw_data, raw_data),",
 				"     mapColumn(",
 				"          agebracket = raw_data.agebracket,",
@@ -57,9 +61,9 @@
 				"          statuschangedate = raw_data.statuschangedate,",
 				"          typeoftransmission = raw_data.typeoftransmission",
 				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> flatten1",
-				"flatten1 sink(allowSchemaDrift: true,",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flattenjsondata",
+				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     umask: 0022,",
 				"     preCommands: [],",
