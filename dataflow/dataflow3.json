@@ -1,0 +1,53 @@
+{
+	"name": "dataflow3",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "df_ds_json",
+						"type": "DatasetReference"
+					},
+					"name": "djsondata"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "df_ds_json_to_csv",
+						"type": "DatasetReference"
+					},
+					"name": "datatoscsvortable"
+				}
+			],
+			"transformations": [
+				{
+					"name": "flatten1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          raw_data as (agebracket as string, backupnotes as string, contractedfromwhichpatientsuspected as string, currentstatus as string, dateannounced as string, detectedcity as string, detecteddistrict as string, detectedstate as string, estimatedonsetdate as string, gender as string, nationality as string, notes as string, patientnumber as string, source1 as string, source2 as string, source3 as string, statecode as string, statepatientnumber as string, statuschangedate as string, typeoftransmission as string)[]",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'singleDocument') ~> djsondata",
+				"djsondata foldDown(unroll(raw_data, raw_data),",
+				"     mapColumn(",
+				"          raw_data",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> flatten1",
+				"flatten1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> datatoscsvortable"
+			]
+		}
+	}
+}

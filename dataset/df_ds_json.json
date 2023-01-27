@@ -1,0 +1,91 @@
+{
+	"name": "df_ds_json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_gen2_df",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "raw_data.json",
+				"fileSystem": "json"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"raw_data": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"agebracket": {
+								"type": "string"
+							},
+							"backupnotes": {
+								"type": "string"
+							},
+							"contractedfromwhichpatientsuspected": {
+								"type": "string"
+							},
+							"currentstatus": {
+								"type": "string"
+							},
+							"dateannounced": {
+								"type": "string"
+							},
+							"detectedcity": {
+								"type": "string"
+							},
+							"detecteddistrict": {
+								"type": "string"
+							},
+							"detectedstate": {
+								"type": "string"
+							},
+							"estimatedonsetdate": {
+								"type": "string"
+							},
+							"gender": {
+								"type": "string"
+							},
+							"nationality": {
+								"type": "string"
+							},
+							"notes": {
+								"type": "string"
+							},
+							"patientnumber": {
+								"type": "string"
+							},
+							"source1": {
+								"type": "string"
+							},
+							"source2": {
+								"type": "string"
+							},
+							"source3": {
+								"type": "string"
+							},
+							"statecode": {
+								"type": "string"
+							},
+							"statepatientnumber": {
+								"type": "string"
+							},
+							"statuschangedate": {
+								"type": "string"
+							},
+							"typeoftransmission": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
