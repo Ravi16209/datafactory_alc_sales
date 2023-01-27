@@ -1,0 +1,36 @@
+{
+	"name": "ds_Json_testing",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "sample-json-file-download.json",
+				"folderPath": "json_f",
+				"fileSystem": "stg1container"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"returnReference": {
+					"type": "string"
+				},
+				"orderReference": {
+					"type": "string"
+				},
+				"customerId": {
+					"type": "integer"
+				},
+				"timestamp": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
