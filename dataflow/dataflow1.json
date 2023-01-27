@@ -98,7 +98,7 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> deptsimsal"
+				"     partitionBy('roundRobin', 2)) ~> deptsimsal"
 			]
 		}
 	}
