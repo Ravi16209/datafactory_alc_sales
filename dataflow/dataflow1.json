@@ -97,8 +97,7 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('roundRobin', 2)) ~> deptsimsal"
+				"     skipDuplicateMapOutputs: true) ~> deptsimsal"
 			]
 		}
 	}
