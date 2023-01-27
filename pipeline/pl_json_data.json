@@ -85,7 +85,10 @@
 						"referenceName": "ds_json",
 						"type": "DatasetReference",
 						"parameters": {
-							"filename": "testing",
+							"filename": {
+								"value": "@pipeline().parameters.dfile",
+								"type": "Expression"
+							},
 							"foldername": {
 								"value": "json_f/output",
 								"type": "Expression"
@@ -99,6 +102,11 @@
 				]
 			}
 		],
+		"parameters": {
+			"dfile": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
