@@ -23,9 +23,6 @@
 			],
 			"transformations": [
 				{
-					"name": "filter1"
-				},
-				{
 					"name": "flattenjsondata"
 				}
 			],
@@ -37,7 +34,6 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'singleDocument') ~> djsondata",
-				"flattenjsondata filter(ERROR_FUNCTION('')) ~> filter1",
 				"djsondata foldDown(unroll(raw_data, raw_data),",
 				"     mapColumn(",
 				"          agebracket = raw_data.agebracket,",
@@ -63,7 +59,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flattenjsondata",
-				"filter1 sink(allowSchemaDrift: true,",
+				"flattenjsondata sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     umask: 0022,",
 				"     preCommands: [],",
