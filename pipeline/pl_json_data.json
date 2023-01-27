@@ -27,15 +27,25 @@
 						}
 					},
 					"sink": {
-						"type": "JsonSink",
+						"type": "DelimitedTextSink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings"
 						},
 						"formatSettings": {
-							"type": "JsonWriteSettings"
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
 						}
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
 				},
 				"inputs": [
 					{
@@ -59,8 +69,19 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "df_ds_json",
-						"type": "DatasetReference"
+						"referenceName": "ds_json",
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": "testing",
+							"foldername": {
+								"value": "json_f/output",
+								"type": "Expression"
+							},
+							"containername": {
+								"value": "stg1container",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
