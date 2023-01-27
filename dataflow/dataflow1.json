@@ -97,7 +97,10 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> deptsimsal"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 2,",
+				"          DEPTNO",
+				"     )) ~> deptsimsal"
 			]
 		}
 	}
