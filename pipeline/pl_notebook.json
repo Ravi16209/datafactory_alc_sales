@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"notebookPath": "/Users/ravi.c.16209@gmail.com/exit",
 					"baseParameters": {
-						"env": "Dev"
+						"env": "Prod"
 					}
 				},
 				"linkedServiceName": {
