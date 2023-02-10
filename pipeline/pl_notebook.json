@@ -15,7 +15,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Users/ravi.c.16209@gmail.com/exit"
+					"notebookPath": "/Users/ravi.c.16209@gmail.com/exit",
+					"baseParameters": {
+						"env": "Dev"
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "ls_databricks",
