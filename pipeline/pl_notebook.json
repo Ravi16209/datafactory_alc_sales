@@ -17,7 +17,10 @@
 				"typeProperties": {
 					"notebookPath": "/Users/ravi.c.16209@gmail.com/exit",
 					"baseParameters": {
-						"env": "Prod"
+						"Date": {
+							"value": "@utcnow()",
+							"type": "Expression"
+						}
 					}
 				},
 				"linkedServiceName": {
