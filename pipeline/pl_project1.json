@@ -103,7 +103,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT OrderID,ProductID,CustomerID,UnitPrice,Quantity,InsertDateTime FROM dbo.Orders\nWHERE\nInsertDateTime>'@{activity('Lookup_Source').output.value.MaxSource}'\nAND\nInsertDateTime<='@{activity('Lookup_Target').output.value.MaxTarget}'",
+							"value": "SELECT OrderID,ProductID,CustomerID,UnitPrice,Quantity,InsertDateTime FROM dbo.Orders\nWHERE\nInsertDateTime>'@{activity('Lookup_Source').output.value}'\nAND\nInsertDateTime<='@{activity('Lookup_Target').output}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
