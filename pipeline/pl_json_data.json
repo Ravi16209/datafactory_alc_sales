@@ -94,6 +94,9 @@
 				"type": "string"
 			}
 		},
+		"folder": {
+			"name": "DELTA_ACTIVITIES"
+		},
 		"annotations": []
 	}
 }
