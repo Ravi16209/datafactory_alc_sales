@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT max([InsertDateTime])\n  FROM [dbo].[orders]",
+						"sqlReaderQuery": "SELECT max([InsertDateTime]) as MaxValue\n  FROM [dbo].[orders]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -53,7 +53,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT max(LastReadDateandTime)\n  FROM [META].[Watermark] where TableName='orders'",
+						"sqlReaderQuery": "SELECT max(LastReadDateandTime) as MaxTarget\n  FROM [META].[Watermark] where TableName='orders'",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
