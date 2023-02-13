@@ -26,11 +26,11 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"schemaname": {
-								"value": "dbo",
+								"value": "NA",
 								"type": "Expression"
 							},
 							"tablename": {
-								"value": "orders",
+								"value": "NA",
 								"type": "Expression"
 							}
 						}
