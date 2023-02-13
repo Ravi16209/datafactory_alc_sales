@@ -75,7 +75,7 @@
 				}
 			},
 			{
-				"name": "Copy data1",
+				"name": "DATA Movement",
 				"type": "Copy",
 				"dependsOn": [
 					{
