@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT max([InsertDateTime]) as MaxValue\n  FROM [dbo].[orders]",
+						"sqlReaderQuery": "SELECT max([InsertDateTime]) as MaxSource\n  FROM [dbo].[orders]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -103,7 +103,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT OrderID,ProductID,CustomerID,UnitPrice,Quantity,InsertDateTime FROM dbo.Orders",
+							"value": "SELECT OrderID,ProductID,CustomerID,UnitPrice,Quantity,InsertDateTime FROM dbo.Orders\nWHERE\nInsertDateTime>'@{activity('Lookup_Source').output.value.MaxSource}'\nAND\nInsertDateTime<='@{activity('Lookup_Target').output.value.MaxTarget}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
