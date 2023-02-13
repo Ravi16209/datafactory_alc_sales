@@ -187,7 +187,7 @@
 						},
 						"TableName": {
 							"value": {
-								"value": "[META].[Watermark]",
+								"value": "orders",
 								"type": "Expression"
 							}
 						}
