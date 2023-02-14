@@ -301,7 +301,7 @@
 							"type": "DateTime"
 						},
 						"JOBNAME": {
-							"value": "MovingDataFromCSVTOSQL",
+							"value": "DeltaForSQLtoSQL",
 							"type": "String"
 						},
 						"SOURCE_COUNT": {
