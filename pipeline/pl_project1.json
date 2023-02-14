@@ -277,7 +277,7 @@
 						},
 						"TARGET_COUNT": {
 							"value": {
-								"value": "@activity('Copy_SQL_ODS_MAIN').output.rowsCopied",
+								"value": "@activity('DATA Movement').output.rowsCopied",
 								"type": "Expression"
 							},
 							"type": "Int64"
