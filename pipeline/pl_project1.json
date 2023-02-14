@@ -158,11 +158,11 @@
 				]
 			},
 			{
-				"name": "Stored procedure1",
+				"name": "Updating WaterMark",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "Log Audit",
+						"activity": "Log Audit Success Details",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -203,7 +203,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Stored procedure1",
+						"activity": "Updating WaterMark",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -274,7 +274,7 @@
 				]
 			},
 			{
-				"name": "Log Audit",
+				"name": "Log Audit Success Details",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
