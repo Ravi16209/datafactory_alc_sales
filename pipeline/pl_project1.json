@@ -378,7 +378,7 @@
 						},
 						"SOURCE_COUNT": {
 							"value": {
-								"value": "@activity('DATA Movement').output.rowsRead",
+								"value": "NA",
 								"type": "Expression"
 							},
 							"type": "Int64"
@@ -399,7 +399,7 @@
 						},
 						"TARGET_COUNT": {
 							"value": {
-								"value": "@activity('DATA Movement').output.rowsCopied",
+								"value": "NA",
 								"type": "Expression"
 							},
 							"type": "Int64"
