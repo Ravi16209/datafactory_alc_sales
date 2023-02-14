@@ -41,7 +41,7 @@
 					},
 					"method": "POST",
 					"body": {
-						"value": "{\"TO\":  \"ravikumar.bakka@gmail.com\",\n\"Body\":  \"ADF pipeline success\",\n\"SUBJECT\":  \"Everything is going Smooth\"\n}",
+						"value": "{\"TO\":  \"ravikumar.bakka@gmail.com\",\n\"Body\":  \"Incremental Order dataq and Full Customer datamovenet is done\",\n\"SUBJECT\":  \"Customer and Order Data Movement is Successfull\"\n}",
 						"type": "Expression"
 					}
 				}
