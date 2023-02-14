@@ -14,6 +14,37 @@
 					},
 					"waitOnCompletion": true
 				}
+			},
+			{
+				"name": "Email Success Alert",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": {
+						"value": "https://prod-83.eastus.logic.azure.com:443/workflows/1a6fc1ffcd6c46b3b5449c66298ad26b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ZTsOiJbl9_n8CbCkpxJKuRXEOG052kbxnOoyyyNLauE",
+						"type": "Expression"
+					},
+					"method": "POST",
+					"body": {
+						"value": "{\"TO\":  \"ravi.c.16209@gmail.com\",\n\"Body\":  \"ADF pipeline success\",\n\"SUBJECT\":  \"Everything is going Smooth\"\n}",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"annotations": []
