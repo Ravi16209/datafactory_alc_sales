@@ -420,6 +420,26 @@
 			{
 				"name": "Data_Movement_Daily_Sales",
 				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[MAIN].[LOAD_DailySales]"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_sql",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Log Audit Success Details_Customer",
+				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
 						"activity": "Customer Full Load Data",
@@ -437,7 +457,124 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[MAIN].[LOAD_DailySales]"
+					"storedProcedureName": "[AUDIT].[UPDATE_AUDIT_INFO]",
+					"storedProcedureParameters": {
+						"ENDTIME": {
+							"value": {
+								"value": "@utcnow()",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"JOBNAME": {
+							"value": "DeltaForSQLtoSQL",
+							"type": "String"
+						},
+						"SOURCE_COUNT": {
+							"value": {
+								"value": "@activity('Customer Full Load Data').output.rowsRead",
+								"type": "Expression"
+							},
+							"type": "Int64"
+						},
+						"SOURCE_DATAPATH": {
+							"value": {
+								"value": "stg1container_INPUT_DATAFILES_Persons",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"STARTTIME": {
+							"value": {
+								"value": "@pipeline().TriggerTime",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"TARGET_COUNT": {
+							"value": {
+								"value": "@activity('Customer Full Load Data').output.rowsCopied",
+								"type": "Expression"
+							},
+							"type": "Int64"
+						},
+						"TARGET_DATAPATH": {
+							"value": "STG_PERSONS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_sql",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Log Audit_Fail_Customer",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Customer Full Load Data",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AUDIT].[UPDATE_AUDIT_INFO]",
+					"storedProcedureParameters": {
+						"ENDTIME": {
+							"value": {
+								"value": "@utcnow()",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"JOBNAME": {
+							"value": "MovingDataFromCSVTOSQL",
+							"type": "String"
+						},
+						"SOURCE_COUNT": {
+							"value": {
+								"value": "NA",
+								"type": "Expression"
+							},
+							"type": "Int64"
+						},
+						"SOURCE_DATAPATH": {
+							"value": {
+								"value": "stg1container_INPUT_DATAFILES_Persons",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"STARTTIME": {
+							"value": {
+								"value": "@pipeline().TriggerTime",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"TARGET_COUNT": {
+							"value": {
+								"value": "NA",
+								"type": "Expression"
+							},
+							"type": "Int64"
+						},
+						"TARGET_DATAPATH": {
+							"value": "STG_PERSONS",
+							"type": "String"
+						}
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "ls_sql",
