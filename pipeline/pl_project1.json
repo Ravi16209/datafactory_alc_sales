@@ -467,7 +467,7 @@
 							"type": "DateTime"
 						},
 						"JOBNAME": {
-							"value": "DeltaForSQLtoSQL",
+							"value": "CustomerFullLoad",
 							"type": "String"
 						},
 						"SOURCE_COUNT": {
@@ -499,7 +499,7 @@
 							"type": "Int64"
 						},
 						"TARGET_DATAPATH": {
-							"value": "STG_PERSONS",
+							"value": "XYZ",
 							"type": "String"
 						}
 					}
@@ -539,7 +539,7 @@
 							"type": "DateTime"
 						},
 						"JOBNAME": {
-							"value": "MovingDataFromCSVTOSQL",
+							"value": "CustomerFullLoad",
 							"type": "String"
 						},
 						"SOURCE_COUNT": {
@@ -551,7 +551,7 @@
 						},
 						"SOURCE_DATAPATH": {
 							"value": {
-								"value": "stg1container_INPUT_DATAFILES_Persons",
+								"value": "XYZ",
 								"type": "Expression"
 							},
 							"type": "String"
@@ -571,7 +571,7 @@
 							"type": "Int64"
 						},
 						"TARGET_DATAPATH": {
-							"value": "STG_PERSONS",
+							"value": "ABC",
 							"type": "String"
 						}
 					}
