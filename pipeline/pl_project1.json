@@ -315,7 +315,7 @@
 						},
 						"SOURCE_DATAPATH": {
 							"value": {
-								"value": "stg1container_INPUT_DATAFILES_Persons",
+								"value": "SQL_DBO_ORDERTABLE",
 								"type": "Expression"
 							},
 							"type": "String"
@@ -335,7 +335,10 @@
 							"type": "Int64"
 						},
 						"TARGET_DATAPATH": {
-							"value": "STG_PERSONS",
+							"value": {
+								"value": "ORDERTABLE",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
