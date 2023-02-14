@@ -437,21 +437,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[MAIN].[LOAD_DailySales]",
-					"storedProcedureParameters": {
-						"NewTime": {
-							"value": {
-								"value": "@{activity('Lookup_Source').output.firstRow.MaxSource}",
-								"type": "Expression"
-							}
-						},
-						"TableName": {
-							"value": {
-								"value": "orders",
-								"type": "Expression"
-							}
-						}
-					}
+					"storedProcedureName": "[MAIN].[LOAD_DailySales]"
 				},
 				"linkedServiceName": {
 					"referenceName": "ls_sql",
