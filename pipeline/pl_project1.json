@@ -416,6 +416,47 @@
 					"referenceName": "ls_sql",
 					"type": "LinkedServiceReference"
 				}
+			},
+			{
+				"name": "Data_Movement_Daily_Sales",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Customer Full Load Data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[MAIN].[LOAD_DailySales]",
+					"storedProcedureParameters": {
+						"NewTime": {
+							"value": {
+								"value": "@{activity('Lookup_Source').output.firstRow.MaxSource}",
+								"type": "Expression"
+							}
+						},
+						"TableName": {
+							"value": {
+								"value": "orders",
+								"type": "Expression"
+							}
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_sql",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"annotations": []
