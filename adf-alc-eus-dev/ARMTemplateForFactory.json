@@ -744,6 +744,46 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/blob_automated_mail')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Email Success Alert",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": {
+								"value": "https://prod-85.eastus.logic.azure.com:443/workflows/eea8a6fa6d9b489c80c16da99657979f/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=TG8sxcM1-vWRWV6XSSG18xQ8ca3iNhqQ5uueyOOyqb0",
+								"type": "Expression"
+							},
+							"method": "POST",
+							"headers": {},
+							"body": {
+								"value": "{\"TO\":  \"ravikumar.bakka@gmail.com\",\n\"Body\":  \"Incremental Order dataq and Full Customer datamovenet is done\",\n\"SUBJECT\":  \"Customer and Order Data Movement is Successfull\"\n}",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/copy_STG_to_SQL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -3625,6 +3665,36 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/blob_created')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "blob_automated_mail",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/stg1container/blobs/INPUT_DATAFILES/Reject_NEW/",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('blob_created_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/blob_automated_mail')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/shir-alc-eus-dev')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
@@ -4180,76 +4250,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_sql')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/blob_automated_mail')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Email Success Alert",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": {
-								"value": "https://prod-85.eastus.logic.azure.com:443/workflows/eea8a6fa6d9b489c80c16da99657979f/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=TG8sxcM1-vWRWV6XSSG18xQ8ca3iNhqQ5uueyOOyqb0",
-								"type": "Expression"
-							},
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"value": "{\"TO\":  \"ravikumar.bakka@gmail.com\",\n\"Body\":  \"Incremental Order dataq and Full Customer datamovenet is done\",\n\"SUBJECT\":  \"Customer and Order Data Movement is Successfull\"\n}",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/blob_created')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "blob_automated_mail",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "BlobEventsTrigger",
-				"typeProperties": {
-					"blobPathBeginsWith": "/stg1container/blobs/INPUT_DATAFILES/Reject_NEW/",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('blob_created_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/blob_automated_mail')]"
 			]
 		}
 	]
