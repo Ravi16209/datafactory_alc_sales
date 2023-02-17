@@ -1,0 +1,32 @@
+{
+	"name": "blob_automated_mail",
+	"properties": {
+		"activities": [
+			{
+				"name": "Email Success Alert",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": {
+						"value": "https://prod-85.eastus.logic.azure.com:443/workflows/eea8a6fa6d9b489c80c16da99657979f/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=TG8sxcM1-vWRWV6XSSG18xQ8ca3iNhqQ5uueyOOyqb0",
+						"type": "Expression"
+					},
+					"method": "POST",
+					"body": {
+						"value": "{\"TO\":  \"ravikumar.bakka@gmail.com\",\n\"Body\":  \"Incremental Order dataq and Full Customer datamovenet is done\",\n\"SUBJECT\":  \"Customer and Order Data Movement is Successfull\"\n}",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"annotations": []
+	}
+}
