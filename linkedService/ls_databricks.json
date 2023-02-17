@@ -7,7 +7,7 @@
 		"typeProperties": {
 			"domain": "https://adb-2863949363038363.3.azuredatabricks.net",
 			"existingClusterId": "0206-162521-qge42v57",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3MWI5MDFlZi0wMmE5LTRiZDgtYjMzMS1lNTMwMTAxNDU2NmIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJkZDI1NDAwNS1kYWZlLTRjZDItYmZiNC0xZjI1ZTg0OGMxNzAiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "shir-alc-eus-dev",
