@@ -7,17 +7,57 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-alc-eus-dev"
 		},
-		"ls_gen2_stgalceusraw1dev_accountKey": {
+		"ls_databricks_accessToken": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'ls_gen2_stgalceusraw1dev'"
+			"metadata": "Secure string for 'accessToken' of 'ls_databricks'"
+		},
+		"ls_df_sql_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_df_sql'"
+		},
+		"ls_gen2_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_gen2'"
+		},
+		"ls_gen2_df_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_gen2_df'"
 		},
 		"ls_sql_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_sql'"
 		},
+		"ls_azure_key_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://keyvalut-alc-dev.vault.azure.net/"
+		},
+		"ls_databricks_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0206-162521-qge42v57"
+		},
+		"ls_gen2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://stgalceusraw1dev.dfs.core.windows.net/"
+		},
+		"ls_gen2_df_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://stgalceusraw1dev.dfs.core.windows.net/"
+		},
 		"ls_gen2_stgalceusraw1dev_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://stgalceusraw1dev.dfs.core.windows.net/"
+		},
+		"ls_gen2_stgalceusraw1dev_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "ac6d0bfb-0888-4ba4-8e1b-64368ebde8ff"
+		},
+		"ls_gen2_stgalceusraw1dev_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "a4d0a191-86c1-4f21-ab13-450bca78e778"
+		},
+		"ls_keyVALUT_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://keyvalue-alc-eus-dev.vault.azure.net/"
 		},
 		"ls_testing_properties_typeProperties_url": {
 			"type": "string",
@@ -31,9 +71,9 @@
 			"type": "string",
 			"defaultValue": "bbe1fb4b-6318-4fb3-a877-daa5832ed16a"
 		},
-		"ls_keyVALUT_properties_typeProperties_baseUrl": {
+		"blob_created_properties_typeProperties_scope": {
 			"type": "string",
-			"defaultValue": "https://keyvalue-alc-eus-dev.vault.azure.net/"
+			"defaultValue": "/subscriptions/390c249f-2450-4238-9b6d-db88b756fb45/resourceGroups/rg_alc_eus_dev/providers/Microsoft.Storage/storageAccounts/stgalceusraw1dev"
 		},
 		"containerUri": {
 			"type": "string",
@@ -62,17 +102,62 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"ls_gen2_stgalceusraw1dev_accountKey": {
-						"value": "[parameters('ls_gen2_stgalceusraw1dev_accountKey')]"
+					"ls_df_sql_connectionString": {
+						"value": "[parameters('ls_df_sql_connectionString')]"
+					},
+					"ls_gen2_df_accountKey": {
+						"value": "[parameters('ls_gen2_df_accountKey')]"
 					},
 					"ls_sql_connectionString": {
 						"value": "[parameters('ls_sql_connectionString')]"
 					},
-					"ls_gen2_stgalceusraw1dev_properties_typeProperties_url": {
-						"value": "[parameters('ls_gen2_stgalceusraw1dev_properties_typeProperties_url')]"
+					"ls_databricks_accessToken": {
+						"value": "[parameters('ls_databricks_accessToken')]"
+					},
+					"ls_azure_key_properties_typeProperties_baseUrl": {
+						"value": "[parameters('ls_azure_key_properties_typeProperties_baseUrl')]"
+					},
+					"ls_gen2_df_properties_typeProperties_url": {
+						"value": "[parameters('ls_gen2_df_properties_typeProperties_url')]"
 					},
 					"ls_keyVALUT_properties_typeProperties_baseUrl": {
 						"value": "[parameters('ls_keyVALUT_properties_typeProperties_baseUrl')]"
+					},
+					"ls_databricks_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('ls_databricks_properties_typeProperties_existingClusterId')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "adf-alc-eus-dev_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ls_gen2_accountKey": {
+						"value": "[parameters('ls_gen2_accountKey')]"
+					},
+					"ls_gen2_properties_typeProperties_url": {
+						"value": "[parameters('ls_gen2_properties_typeProperties_url')]"
+					},
+					"ls_gen2_stgalceusraw1dev_properties_typeProperties_url": {
+						"value": "[parameters('ls_gen2_stgalceusraw1dev_properties_typeProperties_url')]"
+					},
+					"ls_gen2_stgalceusraw1dev_properties_typeProperties_tenant": {
+						"value": "[parameters('ls_gen2_stgalceusraw1dev_properties_typeProperties_tenant')]"
+					},
+					"ls_gen2_stgalceusraw1dev_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('ls_gen2_stgalceusraw1dev_properties_typeProperties_servicePrincipalId')]"
 					},
 					"ls_testing_properties_typeProperties_url": {
 						"value": "[parameters('ls_testing_properties_typeProperties_url')]"
@@ -82,10 +167,35 @@
 					},
 					"ls_testing_properties_typeProperties_servicePrincipalId": {
 						"value": "[parameters('ls_testing_properties_typeProperties_servicePrincipalId')]"
+					},
+					"blob_created_properties_typeProperties_scope": {
+						"value": "[parameters('blob_created_properties_typeProperties_scope')]"
 					}
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'adf-alc-eus-dev_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "adf-alc-eus-dev_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'adf-alc-eus-dev_ArmTemplate_1')]"
+			]
 		}
 	]
 }

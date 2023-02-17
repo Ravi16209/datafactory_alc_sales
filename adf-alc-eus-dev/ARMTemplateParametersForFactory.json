@@ -5,14 +5,44 @@
 		"factoryName": {
 			"value": "adf-alc-eus-dev"
 		},
-		"ls_gen2_stgalceusraw1dev_accountKey": {
+		"ls_databricks_accessToken": {
+			"value": ""
+		},
+		"ls_df_sql_connectionString": {
+			"value": ""
+		},
+		"ls_gen2_accountKey": {
+			"value": ""
+		},
+		"ls_gen2_df_accountKey": {
 			"value": ""
 		},
 		"ls_sql_connectionString": {
 			"value": ""
 		},
+		"ls_azure_key_properties_typeProperties_baseUrl": {
+			"value": "https://keyvalut-alc-dev.vault.azure.net/"
+		},
+		"ls_databricks_properties_typeProperties_existingClusterId": {
+			"value": "0206-162521-qge42v57"
+		},
+		"ls_gen2_properties_typeProperties_url": {
+			"value": "https://stgalceusraw1dev.dfs.core.windows.net/"
+		},
+		"ls_gen2_df_properties_typeProperties_url": {
+			"value": "https://stgalceusraw1dev.dfs.core.windows.net/"
+		},
 		"ls_gen2_stgalceusraw1dev_properties_typeProperties_url": {
 			"value": "https://stgalceusraw1dev.dfs.core.windows.net/"
+		},
+		"ls_gen2_stgalceusraw1dev_properties_typeProperties_tenant": {
+			"value": "ac6d0bfb-0888-4ba4-8e1b-64368ebde8ff"
+		},
+		"ls_gen2_stgalceusraw1dev_properties_typeProperties_servicePrincipalId": {
+			"value": "a4d0a191-86c1-4f21-ab13-450bca78e778"
+		},
+		"ls_keyVALUT_properties_typeProperties_baseUrl": {
+			"value": "https://keyvalue-alc-eus-dev.vault.azure.net/"
 		},
 		"ls_testing_properties_typeProperties_url": {
 			"value": "https://stgalceusraw1dev.dfs.core.windows.net/"
@@ -23,8 +53,8 @@
 		"ls_testing_properties_typeProperties_servicePrincipalId": {
 			"value": "bbe1fb4b-6318-4fb3-a877-daa5832ed16a"
 		},
-		"ls_keyVALUT_properties_typeProperties_baseUrl": {
-			"value": "https://keyvalue-alc-eus-dev.vault.azure.net/"
+		"blob_created_properties_typeProperties_scope": {
+			"value": "/subscriptions/390c249f-2450-4238-9b6d-db88b756fb45/resourceGroups/rg_alc_eus_dev/providers/Microsoft.Storage/storageAccounts/stgalceusraw1dev"
 		}
 	}
 }
