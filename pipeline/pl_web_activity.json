@@ -15,7 +15,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://prod-83.eastus.logic.azure.com:443/workflows/1a6fc1ffcd6c46b3b5449c66298ad26b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ZTsOiJbl9_n8CbCkpxJKuRXEOG052kbxnOoyyyNLauE",
+					"url": "http://restapi.adequateshop.com/api/users?page=1",
 					"method": "GET"
 				}
 			}
