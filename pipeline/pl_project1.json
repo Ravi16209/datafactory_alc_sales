@@ -592,6 +592,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "DELTA_ACTIVITIES"
+		},
 		"annotations": []
 	}
 }
