@@ -1,0 +1,238 @@
+{
+	"name": "DELTA_USING_SP_AUDIT_copy1",
+	"properties": {
+		"activities": [
+			{
+				"name": "CSV_TO_STG_TABLE",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table STG.PERSONS;",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_stg_delimited",
+						"type": "DatasetReference",
+						"parameters": {
+							"containername": {
+								"value": "stg1container",
+								"type": "Expression"
+							},
+							"foldername": {
+								"value": "INPUT_DATAFILES",
+								"type": "Expression"
+							},
+							"filename": {
+								"value": "Persons.csv",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_sql",
+						"type": "DatasetReference",
+						"parameters": {
+							"schemaname": {
+								"value": "STG",
+								"type": "Expression"
+							},
+							"tablename": {
+								"value": "PERSONS",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Log_Audit_Success",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "CSV_TO_STG_TABLE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AUDIT].[UPDATE_AUDIT_INFO]",
+					"storedProcedureParameters": {
+						"ENDTIME": {
+							"value": {
+								"value": "@utcnow()",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"JOBNAME": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"SOURCE_COUNT": {
+							"value": {
+								"value": "@activity('CSV_TO_STG_TABLE').output.rowsRead",
+								"type": "Expression"
+							},
+							"type": "Int64"
+						},
+						"SOURCE_DATAPATH": {
+							"value": {
+								"value": "stg1container_INPUT_DATAFILES_Persons",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"STARTTIME": {
+							"value": {
+								"value": "@pipeline().TriggerTime",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"TARGET_COUNT": {
+							"value": {
+								"value": "@activity('CSV_TO_STG_TABLE').output.rowsCopied",
+								"type": "Expression"
+							},
+							"type": "Int64"
+						},
+						"TARGET_DATAPATH": {
+							"value": "STG_PERSONS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_sql",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Log Audit_Fails",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "CSV_TO_STG_TABLE",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AUDIT].[UPDATE_AUDIT_INFO]",
+					"storedProcedureParameters": {
+						"ENDTIME": {
+							"value": {
+								"value": "@utcnow()",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"JOBNAME": {
+							"value": "MovingDataFromCSVTOSQL",
+							"type": "String"
+						},
+						"SOURCE_COUNT": {
+							"value": {
+								"value": "@activity('CSV_TO_STG_TABLE').output.rowsRead",
+								"type": "Expression"
+							},
+							"type": "Int64"
+						},
+						"SOURCE_DATAPATH": {
+							"value": {
+								"value": "stg1container_INPUT_DATAFILES_Persons",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"STARTTIME": {
+							"value": {
+								"value": "@pipeline().TriggerTime",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"TARGET_COUNT": {
+							"value": {
+								"value": "@activity('CSV_TO_STG_TABLE').output.rowsCopied",
+								"type": "Expression"
+							},
+							"type": "Int64"
+						},
+						"TARGET_DATAPATH": {
+							"value": "STG_PERSONS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_sql",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"folder": {
+			"name": "DELTA_ACTIVITIES"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-01-19T18:58:40Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
