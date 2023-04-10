@@ -21,7 +21,7 @@
 					},
 					"method": "POST",
 					"body": {
-						"value": "{\"TO\":  \"ravi.c.16209@gmail.com\",\n\"Body\":  \"Incremental Order dataq and Full Customer datamovenet is done\",\n\"SUBJECT\":  \"Customer and Order Data Movement is Successfull\"\n}",
+						"value": "{\"TO\":  \"ravi.c.16209@gmail.com\",\n\"Body\":  \"Testing\",\n\"SUBJECT\":  \"Test 2\"\n}",
 						"type": "Expression"
 					}
 				}
