@@ -21,7 +21,7 @@
 					},
 					"method": "POST",
 					"body": {
-						"value": "{\"TO\":  \"ravi.c.16209@gmail.com\",\n\"Body\":  \"This is pipeline test</br>\",\n\"SUBJECT\":  \"Copy activity\",\n\"ADDRESS\":  \"HYDERABAD\"\n}",
+						"value": "{\"TO\":  \"ravi.c.16209@gmail.com\",\n\"Body\":  \"This is pipeline test\",\n\"SUBJECT\":  \"Copy activity\",\n\"ADDRESS\":  \"</br>HYDERABAD\"\n}",
 						"type": "Expression"
 					}
 				}
