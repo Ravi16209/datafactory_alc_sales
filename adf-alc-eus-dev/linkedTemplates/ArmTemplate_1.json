@@ -7,14 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-alc-eus-dev"
 		},
-		"ls_gen2_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'ls_gen2'"
-		},
-		"ls_gen2_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://stgalceusraw1dev.dfs.core.windows.net/"
-		},
 		"ls_gen2_stgalceusraw1dev_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://stgalceusraw1dev.dfs.core.windows.net/"
@@ -38,37 +30,12 @@
 		"ls_testing_properties_typeProperties_servicePrincipalId": {
 			"type": "string",
 			"defaultValue": "bbe1fb4b-6318-4fb3-a877-daa5832ed16a"
-		},
-		"blob_created_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/390c249f-2450-4238-9b6d-db88b756fb45/resourceGroups/rg_alc_eus_dev/providers/Microsoft.Storage/storageAccounts/stgalceusraw1dev"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/ls_gen2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('ls_gen2_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('ls_gen2_accountKey')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "shir-alc-eus-dev",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ls_gen2_stgalceusraw1dev')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -121,34 +88,6 @@
 				"connectVia": {
 					"referenceName": "shir-alc-eus-dev",
 					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/blob_created')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "blob_automated_mail",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "BlobEventsTrigger",
-				"typeProperties": {
-					"blobPathBeginsWith": "/stg1container/blobs/INPUT_DATAFILES/Reject_NEW/",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('blob_created_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
 				}
 			},
 			"dependsOn": []
@@ -238,6 +177,14 @@
 										{
 											"name": "waterMarkColumn",
 											"value": "Date_of_birth"
+										},
+										{
+											"name": "allowSchemaDrift",
+											"value": false
+										},
+										{
+											"name": "inferDriftedColumnTypes",
+											"value": false
 										}
 									]
 								}
@@ -350,6 +297,14 @@
 										{
 											"name": "skipDuplicateMapOutputs",
 											"value": true
+										},
+										{
+											"name": "allowSchemaDrift",
+											"value": false
+										},
+										{
+											"name": "inferDriftedColumnTypes",
+											"value": false
 										}
 									]
 								}
@@ -878,233 +833,6 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2023-01-18T17:28:49Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_dynamic_copy_activity_testing_sp')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_SQL_ODS_MAIN",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderStoredProcedureName": "[[MAIN].[LOAD_PERSONS]",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_sql",
-								"type": "DatasetReference",
-								"parameters": {
-									"schemaname": {
-										"value": "ODS",
-										"type": "Expression"
-									},
-									"tablename": {
-										"value": "PERSONS",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_sql",
-								"type": "DatasetReference",
-								"parameters": {
-									"schemaname": {
-										"value": "MAIN",
-										"type": "Expression"
-									},
-									"tablename": {
-										"value": "PERSONS",
-										"type": "Expression"
-									}
-								}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "DELTA_ACTIVITIES"
-				},
-				"annotations": [],
-				"lastPublishTime": "2023-01-17T19:43:19Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_metadata_copy_activity')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Lookup1",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "ds_sql",
-								"type": "DatasetReference",
-								"parameters": {
-									"schemaname": {
-										"value": "META",
-										"type": "Expression"
-									},
-									"tablename": {
-										"value": "DELTA",
-										"type": "Expression"
-									}
-								}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Lookup1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Lookup1').output.value",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Copy data1",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "AzureSqlSource",
-											"queryTimeout": "02:00:00",
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "AzureSqlSink",
-											"writeBehavior": "insert",
-											"sqlWriterUseTableLock": false
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
-									},
-									"inputs": [
-										{
-											"referenceName": "ds_sql",
-											"type": "DatasetReference",
-											"parameters": {
-												"schemaname": {
-													"value": "@item().SOURCE_SCHEMA",
-													"type": "Expression"
-												},
-												"tablename": {
-													"value": "@item().SOURCE_T_NAME",
-													"type": "Expression"
-												}
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "ds_sql",
-											"type": "DatasetReference",
-											"parameters": {
-												"schemaname": {
-													"value": "@item().TARGET_SCHEMA",
-													"type": "Expression"
-												},
-												"tablename": {
-													"value": "@item().TARGETT_T_NAME",
-													"type": "Expression"
-												}
-											}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "DELTA_ACTIVITIES"
-				},
-				"annotations": []
 			},
 			"dependsOn": []
 		},
@@ -1752,6 +1480,288 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
+				"folder": {
+					"name": "DELTA_ACTIVITIES"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_project2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Notebook1",
+						"type": "DatabricksNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/ravi.c.16209@gmail.com/ProjectName/ETL/Curation"
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_databricks",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "DELTA_ACTIVITIES"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/testing_new')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup_Source",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT max(InsertDateTime) as MaxSource\n  FROM [dbo].[orders]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ds_sql",
+								"type": "DatasetReference",
+								"parameters": {
+									"schemaname": {
+										"value": "NA",
+										"type": "Expression"
+									},
+									"tablename": {
+										"value": "NA",
+										"type": "Expression"
+									}
+								}
+							},
+							"firstRowOnly": true
+						}
+					},
+					{
+						"name": "Lookup_Target",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT LastReadDateandTime\n  FROM [META].[Watermark] where TableName='orders'",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ds_sql",
+								"type": "DatasetReference",
+								"parameters": {
+									"schemaname": {
+										"value": "NA",
+										"type": "Expression"
+									},
+									"tablename": {
+										"value": "NA",
+										"type": "Expression"
+									}
+								}
+							},
+							"firstRowOnly": true
+						}
+					},
+					{
+						"name": "DATA Movement",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Lookup_Source",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Lookup_Target",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT OrderID,ProductID,CustomerID,UnitPrice,Quantity,InsertDateTime FROM dbo.Orders\nWHERE\nInsertDateTime>'@{activity('Lookup_Target').output.firstRow.LastReadDateandTime}' AND\nInsertDateTime<='@{activity('Lookup_Source').output.firstRow.MaxSource}'",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_sql",
+								"type": "DatasetReference",
+								"parameters": {
+									"schemaname": {
+										"value": "dbo",
+										"type": "Expression"
+									},
+									"tablename": {
+										"value": "orders",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_sql",
+								"type": "DatasetReference",
+								"parameters": {
+									"schemaname": {
+										"value": "MAIN",
+										"type": "Expression"
+									},
+									"tablename": {
+										"value": "orders",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "Updating WaterMark",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "DATA Movement",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[UpdateWatermark]",
+							"storedProcedureParameters": {
+								"NewTime": {
+									"value": {
+										"value": "@{activity('Lookup_Source').output.firstRow.MaxSource}",
+										"type": "Expression"
+									}
+								},
+								"TableName": {
+									"value": {
+										"value": "orders",
+										"type": "Expression"
+									}
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_sql",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Data_Movement_Daily_Sales",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "Updating WaterMark",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MAIN].[LOAD_DailySales]"
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_sql",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "DELTA_ACTIVITIES"
+				},
 				"annotations": []
 			},
 			"dependsOn": []
@@ -1793,9 +1803,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_gen2')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ds_binary')]",
@@ -1913,9 +1921,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_gen2')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ds_json')]",
@@ -1965,9 +1971,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_gen2')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ds_stg_delimited')]",
@@ -2255,6 +2259,459 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DELTA_USING_SP')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CSV_TO_STG_TABLE",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table STG.PERSONS;",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_stg_delimited",
+								"type": "DatasetReference",
+								"parameters": {
+									"containername": {
+										"value": "stg1container",
+										"type": "Expression"
+									},
+									"foldername": {
+										"value": "INPUT_DATAFILES",
+										"type": "Expression"
+									},
+									"filename": {
+										"value": "Persons.csv",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_sql",
+								"type": "DatasetReference",
+								"parameters": {
+									"schemaname": {
+										"value": "STG",
+										"type": "Expression"
+									},
+									"tablename": {
+										"value": "PERSONS",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "SP_STG_TO_ODS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "CSV_TO_STG_TABLE",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[STG].[LOAD_PERSONS]"
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_sql",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "SP_ODS_MAIN",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "SP_STG_TO_ODS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MAIN].[LOAD_PERSONS]"
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_sql",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "DELTA_ACTIVITIES"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-01-18T18:38:31Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_stg_delimited')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DELTA_USING_SP_AUDIT')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CSV_TO_STG_TABLE",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table STG.PERSONS;",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_stg_delimited",
+								"type": "DatasetReference",
+								"parameters": {
+									"containername": {
+										"value": "stg1container",
+										"type": "Expression"
+									},
+									"foldername": {
+										"value": "INPUT_DATAFILES",
+										"type": "Expression"
+									},
+									"filename": {
+										"value": "Persons.csv",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_sql",
+								"type": "DatasetReference",
+								"parameters": {
+									"schemaname": {
+										"value": "STG",
+										"type": "Expression"
+									},
+									"tablename": {
+										"value": "PERSONS",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "Log_Audit_Success",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "CSV_TO_STG_TABLE",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[AUDIT].[UPDATE_AUDIT_INFO]",
+							"storedProcedureParameters": {
+								"ENDTIME": {
+									"value": {
+										"value": "@utcnow()",
+										"type": "Expression"
+									},
+									"type": "DateTime"
+								},
+								"JOBNAME": {
+									"value": {
+										"value": "@pipeline().Pipeline",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"SOURCE_COUNT": {
+									"value": {
+										"value": "@activity('CSV_TO_STG_TABLE').output.rowsRead",
+										"type": "Expression"
+									},
+									"type": "Int64"
+								},
+								"SOURCE_DATAPATH": {
+									"value": {
+										"value": "stg1container_INPUT_DATAFILES_Persons",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"STARTTIME": {
+									"value": {
+										"value": "@pipeline().TriggerTime",
+										"type": "Expression"
+									},
+									"type": "DateTime"
+								},
+								"TARGET_COUNT": {
+									"value": {
+										"value": "@activity('CSV_TO_STG_TABLE').output.rowsCopied",
+										"type": "Expression"
+									},
+									"type": "Int64"
+								},
+								"TARGET_DATAPATH": {
+									"value": "STG_PERSONS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_sql",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "SP_STG_TO_ODS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "Log_Audit_Success",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[STG].[LOAD_PERSONS]"
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_sql",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "SP_ODS_MAIN",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "SP_STG_TO_ODS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MAIN].[LOAD_PERSONS]"
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_sql",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Log Audit_Fails",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "CSV_TO_STG_TABLE",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[AUDIT].[UPDATE_AUDIT_INFO]",
+							"storedProcedureParameters": {
+								"ENDTIME": {
+									"value": {
+										"value": "@utcnow()",
+										"type": "Expression"
+									},
+									"type": "DateTime"
+								},
+								"JOBNAME": {
+									"value": "MovingDataFromCSVTOSQL",
+									"type": "String"
+								},
+								"SOURCE_COUNT": {
+									"value": {
+										"value": "@activity('CSV_TO_STG_TABLE').output.rowsRead",
+										"type": "Expression"
+									},
+									"type": "Int64"
+								},
+								"SOURCE_DATAPATH": {
+									"value": {
+										"value": "stg1container_INPUT_DATAFILES_Persons",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"STARTTIME": {
+									"value": {
+										"value": "@pipeline().TriggerTime",
+										"type": "Expression"
+									},
+									"type": "DateTime"
+								},
+								"TARGET_COUNT": {
+									"value": {
+										"value": "@activity('CSV_TO_STG_TABLE').output.rowsCopied",
+										"type": "Expression"
+									},
+									"type": "Int64"
+								},
+								"TARGET_DATAPATH": {
+									"value": "STG_PERSONS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_sql",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "DELTA_ACTIVITIES"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-01-19T18:58:40Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_stg_delimited')]"
+			]
 		}
 	]
 }

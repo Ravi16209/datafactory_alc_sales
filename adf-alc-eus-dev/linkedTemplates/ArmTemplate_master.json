@@ -71,10 +71,6 @@
 			"type": "string",
 			"defaultValue": "bbe1fb4b-6318-4fb3-a877-daa5832ed16a"
 		},
-		"blob_created_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/390c249f-2450-4238-9b6d-db88b756fb45/resourceGroups/rg_alc_eus_dev/providers/Microsoft.Storage/storageAccounts/stgalceusraw1dev"
-		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -114,6 +110,9 @@
 					"ls_databricks_accessToken": {
 						"value": "[parameters('ls_databricks_accessToken')]"
 					},
+					"ls_gen2_accountKey": {
+						"value": "[parameters('ls_gen2_accountKey')]"
+					},
 					"ls_azure_key_properties_typeProperties_baseUrl": {
 						"value": "[parameters('ls_azure_key_properties_typeProperties_baseUrl')]"
 					},
@@ -125,6 +124,9 @@
 					},
 					"ls_databricks_properties_typeProperties_existingClusterId": {
 						"value": "[parameters('ls_databricks_properties_typeProperties_existingClusterId')]"
+					},
+					"ls_gen2_properties_typeProperties_url": {
+						"value": "[parameters('ls_gen2_properties_typeProperties_url')]"
 					}
 				}
 			},
@@ -144,12 +146,6 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"ls_gen2_accountKey": {
-						"value": "[parameters('ls_gen2_accountKey')]"
-					},
-					"ls_gen2_properties_typeProperties_url": {
-						"value": "[parameters('ls_gen2_properties_typeProperties_url')]"
-					},
 					"ls_gen2_stgalceusraw1dev_properties_typeProperties_url": {
 						"value": "[parameters('ls_gen2_stgalceusraw1dev_properties_typeProperties_url')]"
 					},
@@ -167,9 +163,6 @@
 					},
 					"ls_testing_properties_typeProperties_servicePrincipalId": {
 						"value": "[parameters('ls_testing_properties_typeProperties_servicePrincipalId')]"
-					},
-					"blob_created_properties_typeProperties_scope": {
-						"value": "[parameters('blob_created_properties_typeProperties_scope')]"
 					}
 				}
 			},
